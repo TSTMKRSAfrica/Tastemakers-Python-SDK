@@ -12,13 +12,7 @@ class Experience(object):
     """
 
     def __init__(self):
-        """ Initializes a new Event.
-
-        :param project_token: the Keen project token to insert the event to
-        :param collection_name: the Keen collection name to insert the event to
-        :param event_body: a dict that contains the body of the event to insert
-        :param timestamp: optional, specify a datetime to override the
-        timestamp associated with the event in Keen
+        """ Initializes a new Experience.
         """
         pass
 
