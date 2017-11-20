@@ -43,7 +43,7 @@ to contact support.
 
 Documentation
 -------------
-Further documentation may be found at https://github.com/TSTMKRSAfrica/Tastemakers-Python
+Further documentation may be found at https://github.com/TSTMKRSAfrica/Tastemakers-Python-SDK
 
 
 Package Contents
