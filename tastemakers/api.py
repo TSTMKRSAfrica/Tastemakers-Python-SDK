@@ -4,6 +4,7 @@ import json
 
 __author__ = 'Ebot Tabi'
 
+
 class TastemakersAfricaApi(object):
     """
     Responsible for communicating with the Tastemakers Africa API. Used by multiple
@@ -33,24 +34,20 @@ class TastemakersAfricaApi(object):
             self.api_version = api_version
 
     def get(self, resource):
-    	url = "{0}/{1}/{2}".format(self.base_url, self.api_version, resource)
-    	headers = {"Content-Type": "application/json", "X-Tastemakers-Key": self.api_key}
-    	response = requests.post(url, data=payload, headers=headers)
-    	return response.json
-
-
+        url = "{0}/{1}/{2}".format(self.base_url, self.api_version, resource)
+        headers = {"Content-Type": "application/json", "X-Tastemakers-Key": self.api_key}
+        response = json.loads(requests.get(url, headers=headers).text)
+        return response
 
     def post(self, resource, data):
         """ Posts a payload to the Tastemakers Africa Platform API.
-
         :param data: a payload to upload
         """
         url = "{}/{}/{}/events/".format(self.base_url, self.api_version,
-                                            event.collection_name)
+                                        event.collection_name)
         headers = {"Content-Type": "application/json", "X-Tastemakers-Key": self.api_key}
         payload = json.dumps(data)
         response = requests.post(url, data=payload, headers=headers)
         if response.status_code != 201:
             error = response.json
             raise exceptions.TastemakersApiError(error)
-
