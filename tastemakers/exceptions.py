@@ -8,6 +8,12 @@ class BaseTastemakersClientError(Exception):
         # all sub-classes should set self._message in their initializers
         return self._message
 
+class InvalidApiKeyError(BaseTastemakersClientError):
+    def __init__(self, api_key):
+        super(InvalidApiKeyError, self).__init__(api_key)
+        self.api_key = api_key
+        self._message = "Invalid api key: {}".format(api_key)
+
 
 class TastemakersApiError(BaseTastemakersClientError):
     def __init__(self, api_error):

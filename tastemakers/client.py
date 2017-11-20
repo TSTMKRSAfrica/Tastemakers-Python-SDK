@@ -58,24 +58,17 @@ class TastemakersClient(object):
         """ Initializes a TastemakersClient object.
 
         :param api_key: the API key
-        :param persistence_strategy: optional, the strategy to use to persist
-        the event
         """
         super(TastemakersClient, self).__init__()
+        self.api_key = api_key
+        self.tastemakers_africa_api = TastemakersAfricaApi(self.api_key)
+
 
         # do some validation
-        if not project_token or not isinstance(project_token, basestring):
-            raise exceptions.InvalidProjectIdError(project_token)
+        if not self.api_key or not isinstance(self.api_key, basestring):
+            raise exceptions.InvalidApiKeyError(self.api_key)
 
-        if persistence_strategy:
-            if not isinstance(persistence_strategy, BasePersistenceStrategy):
-                raise exceptions.InvalidPersistenceStrategyError()
-        if not persistence_strategy:
-            keen_api = KeenApi(project_token)
-            persistence_strategy = persistence_strategies\
-            .DirectPersistenceStrategy(keen_api)
-
-        self.project_token = project_token
-        self.persistence_strategy = persistence_strategy
+    def get_experiences(self):
+    	self.tastemakers_africa_api.get("")
 
 
