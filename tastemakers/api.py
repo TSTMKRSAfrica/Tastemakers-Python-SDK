@@ -1,5 +1,6 @@
 import requests
 from tastemakers import exceptions
+import json
 
 __author__ = 'Ebot Tabi'
 
@@ -14,35 +15,42 @@ class TastemakersAfricaApi(object):
     # the default version of the Tastemakers Africa API
     api_version = "v1"
 
-    def __init__(self, project_token, base_url=None,
+    def __init__(self, api_key, base_url=None,
                  api_version=None):
         """ Initializes a TastemakersAfricaApi object
 
-        :param project_token: the Tastemakers Africa project token
+        :param api_key: the Tastemakers Africa project token
         :param base_url: optional, set this to override where API requests
         are sent
         :param api_version: string, optional, set this to override what API
         version is used
         """
         super(TastemakersAfricaApi, self).__init__()
-        self.project_token = project_token
+        self.api_key = api_key
         if base_url:
             self.base_url = base_url
         if api_version:
             self.api_version = api_version
 
-    def post_event(self, event):
-        """ Posts a single event to the Tastemakers Africa API.
+    def get(self, resource):
+    	url = "{0}/{1}/{2}".format(self.base_url, self.api_version, resource)
+    	headers = {"Content-Type": "application/json", "X-Tastemakers-Key": self.api_key}
+    	response = requests.post(url, data=payload, headers=headers)
+    	return response.json
 
-        :param event: an Event to upload
+
+
+    def post(self, resource, data):
+        """ Posts a payload to the Tastemakers Africa Platform API.
+
+        :param data: a payload to upload
         """
-        url = "{}/{}/projects/{}/events/{}".format(self.base_url, self.api_version,
-                                            self.project_token,
+        url = "{}/{}/{}/events/".format(self.base_url, self.api_version,
                                             event.collection_name)
-        headers = {"Content-Type": "application/json"}
-        payload = event.to_json()
+        headers = {"Content-Type": "application/json", "X-Tastemakers-Key": self.api_key}
+        payload = json.dumps(data)
         response = requests.post(url, data=payload, headers=headers)
         if response.status_code != 201:
             error = response.json
-            raise exceptions.TastemakersAfricaApiError(error)
+            raise exceptions.TastemakersApiError(error)
 
